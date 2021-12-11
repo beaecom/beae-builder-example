@@ -1,0 +1,35 @@
+{
+    "author": "Kalles",
+    "logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0332\/6420\/5963\/files\/kalles.svg",
+    "website": "https://the4.co",
+    "library": {
+      "categories": [
+        {
+          "id": "landing",
+          "title": "Landing"
+        },
+        {
+          "id": "home",
+          "title": "Home"
+        }
+      ],
+      "pages": [
+        {
+          "title": "The first page",
+          "thumbnail": "MyTemplate.jpg",
+          "source": "MyTemplate.beae"
+        }
+      ],
+      "sections": [
+        {
+          "title": "The first section",
+          "thumbnail": "https:\/\/dev.beae.com\/storage\/elements-public\/posts\/pages\/thumbnails\/1011\/2021\/11\/17\/CqpElqxn3v.jpg",
+          "source": "MySection.beae",
+          "categories": [
+            "landing",
+            "home"
+          ]
+        }
+      ]
+    }
+  }
