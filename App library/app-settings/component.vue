@@ -5,6 +5,7 @@
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus molestiae ea neque, a alias dicta beatae reprehenderit necessitatibus asperiores ipsa nesciunt optio qui tempore animi enim sint! Quos, placeat similique!
         </p>
         <h3 v-html="liquid('setting_title')"></h3>
+        
         <component :is="'script'" class="beae-data" type="application/json"  v-html="liquid('settings')" /> 
     </div>
 </template>
@@ -31,11 +32,13 @@ export default {
         },
         liquids(){
             return {
-                settings: {
+                settings: { 
+                        // my-app: the app slug 
                     code: `{{shop.metafields.beae.my-app.value | json}}`,
                     preview:''
                 },
-                setting_title:{
+                setting_title:{  // my-app: the app slug 
+                                //title: the setting name in settings.json
                     code: `{{shop.metafields.beae.my-app.value.title}}`,
                     preview: ''
                 }
