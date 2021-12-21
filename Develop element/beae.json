@@ -1,0 +1,29 @@
+{
+    "author": "Kalles",
+    "logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0332\/6420\/5963\/files\/kalles.svg",
+    "website": "https:\/\/your-site.com?utm_source=beae",
+    "elements": {
+      "test": {
+        "types": [
+          "home",
+          "product",
+          "page",
+          "section",
+          "quickview"
+        ],
+        "name": "test",
+        "title": "Test",
+        "file": "Test.beae.html",
+        "icon": "<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"> <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\" \/> <\/svg>",
+        "category": [
+          "theme"
+        ],
+        "data": {
+          "title": "Test element",
+          "settings": {
+            "title": "Hello"
+          }
+        }
+      }
+    }
+  }
