@@ -49,15 +49,17 @@ export default {
 
 
             }
+        },
+        default(){
+            return {
+                settings:  {
+                title: 'Ai cha cha'
+            }
+            }
         }
     },
     mounted() {
-        if(!this.data?.settings)
-        {
-            this.data.settings = {
-                title: 'Ai cha cha'
-            }
-        }
+        
     },
 }
 </script>

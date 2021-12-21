@@ -40,16 +40,18 @@ export default {
 
 
             }
-        }
-    },
-    mounted() {
-        if(!this.data?.settings)
-        {
-            this.data.settings = {
+        },
+        default(){
+            return {
+                settings: {
                 title: 'Ai cha cha',
                 text: 'Lorem ispum'
             }
+            }
         }
+    },
+    mounted() {
+       
     },
 }
 </script>
