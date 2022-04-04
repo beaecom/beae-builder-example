@@ -1,0 +1,518 @@
+<!-- BEAE Sticky Cart Extension -->
+{%- liquid
+  assign current_product = product.selected_or_first_available_variant
+  assign current_price = current_product.price
+  assign compare_price = current_product.compare_at_price | default:current_price
+  assign image = current_price.featured_image | default:product.featured_image
+  assign variants = product.variants
+  assign variants_available = variants | where: "available"
+  assign variant_first = variants_available.first
+  assign extenstion_setting = shop.metafields.beae.sticky_cart.value
+  assign image_size = extenstion_setting.img_size
+  if extenstion_setting.mobile_disable
+    assign mobile_class = 'beae-sticky-mobile-disable'
+  else
+    assign mobile_class = ''
+  endif
+  -%}
+{%- if extenstion_setting.enable -%}
+<div class="beae-sticky__atc beae-container beae-b__0 beae-l__0 beae-r__0 {{ mobile_class }}" data-img-size="{{ image_size }}">
+  <div class="beae__row beae-fl_center">
+    <div class="beae-col beae-sticky__atc_content">
+      <div class="beae__row beae-al_center">
+        <div class="beae-sticky__atc--image beae-col-auto">
+          <img
+            alt="{{ product.title | escape }}"
+            src="{{ image | img_url: image_size }}"
+          />
+        </div>
+        <div class="beae-sticky__act--info beae-pl__15">
+          <h3 class="beae-sticky__atc--title">{{ product.title }}</h3>
+          <div class="beae-sticky__atc--price">
+            {%- if compare_price > current_price- %}
+              <del>{{ compare_price| money }}</del> <ins>{{current_price| money}}</ins>
+            {%- else -%}
+              {{ current_price | money }}
+            {%- endif -%}
+          </div>
+        </div>
+        {%- if variants_available.size > 1 -%}
+          <div class="beae-col beae-sticky__atc--variants beae-pl__15 beae-flex"></div>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="beae-col-auto beae-sticky__atc_btn beae-flex beae-flex-wrap beae-al_center beae-fl_center">
+      <div class="beae-sticky__atc--quantity beae-pr">
+        <input
+          type="number"
+          class="beae-input-text beae-qty-input text tc beae-js_sticky_qty beae-tc"
+          step="1"
+          min="1"
+          max="{% if current_product.inventory_management != null %}{{current_product.inventory_quantity}}{% else %}9999{% endif %}"
+          name="quantity"
+          value="1"
+          size="4"
+          pattern="[0-9]*"
+          inputmode="numeric"
+        >
+        <div class="beae-qty beae-tc">
+          <a rel="nofollow" data-no-instant class="beae-plus beae-db beae-pa beae-pr__15 beae-r__0" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 15 5 L 15 15 L 5 15 L 5 17 L 15 17 L 15 27 L 17 27 L 17 17 L 27 17 L 27 15 L 17 15 L 17 5 Z"/></svg>
+          </a>
+          <a rel="nofollow" data-no-instant class="beae-minus beae-db beae-pa beae-pl__15 beae-l__0" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 5 15 L 5 17 L 27 17 L 27 15 Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <button class="beae-sticky__atc--btn beae-button">
+        <span class="beae-add-to-cart-text">Add to cart</span>
+        <div class="beae__element--button-icon"></div>
+      </button>
+    </div>
+  </div>
+</div>
+{% style %}
+#shopify-section-beae-sticky-cart {
+  max-width: 100%;
+  overflow:hidden;
+}
+.beae-sticky__atc {
+  padding: 20px;
+  background: #fff;
+  position:fixed;
+  z-index: 999;
+  box-shadow: 0 0 9px rgb(0 0 0 / 12%);
+  transition: -webkit-transform .25s ease;
+  transition: transform .25s ease;
+  transition: transform .25s ease,-webkit-transform .25s ease;
+  -webkit-transform: translate3d(0,100%,0);
+  transform: translate3d(0,100%,0);
+}
+.beae-sticky-show.beae-sticky__atc {
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+.beae-sticky__atc--quantity {
+  border-radius: 0px;
+  border-color: #ddd;
+  min-width: 120px;
+  width: 120px;
+  height: 40px;
+  border: 1px solid #222;
+  text-align: center;
+  display: inline-block;
+  margin: 0 10px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+input.beae-js_sticky_qty {
+  -moz-appearance: textfield;
+  width: 35px;
+  border: 0;
+  height: 38px;
+  background: 0 0;
+  padding: 0;
+  outline: 0;
+  max-width: 100%;
+  box-shadow: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.beae-sticky__atc--quantity .beae-tc a {
+  top: 0;
+  width: 30px;
+  height: 40px;
+  line-height: 40px;
+  border: 0;
+  background: 0 0;
+}
+.beae-js_sticky_sl {
+    outline: none;
+    min-width: 130px;
+    padding: 5PX;
+    margin-top: 10px;
+}
+.beae-js_sticky_sl:focus {
+  outline: none;
+}
+.beae-sticky__atc .selector-wrapper {
+  display: none;
+}
+.beae-sticky__atc--variants {
+ justify-content: center;
+}
+.beae-sticky__atc .beae-product-single__variant-picker--main {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.beae-sticky__atc .beae-product-single__variant-picker--main > div {
+  margin-right: 30px;
+  margin-bottom: 0;
+  flex-direction:row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.beae-sticky__atc .beae-product-single__picker--option-label {
+  margin-right: 15px;
+  margin-bottom: 0;
+}
+.beae-sticky__atc .beae-product-single__swatch-select, .beae-sticky__atc .single-option-selector {
+  text-align: left;
+  min-width: 100px;
+  padding: 6px;
+}
+.beae-sticky__atc--image img {
+  max-width:100px;
+}
+@media (max-width:1024px) {
+  .beae-sticky__atc .beae-product-single__variant-picker--main > div {
+    margin-bottom:15px;
+    flex-wrap:wrap;
+  }
+  .beae-sticky__act--info {
+    width:100%;
+
+  }
+  .beae-sticky__act--info h3 {
+    margin-right: 15px;
+  }
+  .beae-sticky__act--info {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .beae-sticky__atc--image {
+    display:none;
+  }
+  .beae-sticky__atc .beae-product-single__variant-picker--main {
+    justify-content: center;
+  }
+  .beae-sticky__atc--quantity {
+    width: 90px;
+    min-width: 90px;
+  }
+}
+@media (max-width:767px) {
+  .beae-sticky__atc > .beae__row {
+    flex-direction:column;
+  }
+  .beae-sticky__atc.beae-sticky-mobile-disable {
+    display:none;
+    visibility: hidden;
+  }
+  .beae-sticky__act--info {
+    text-align: center;
+    justify-content: center;
+  }
+}
+{% endstyle %}
+{%- endif -%}
+{% javascript %}
+;(function() {
+  //Handle Sticky cart
+  const doc = window.document;
+  const $main_atc_form = doc.querySelector('form[action="/cart/add"]');
+  const $el_wrapper = doc.querySelector('.beae-sticky__atc');
+
+  const handleVariantStickyCart = function() {
+
+    const $el = doc.querySelector('.beae-sticky__atc--variants');
+    const $main_variant_wrapper = doc.querySelector('.beae-product-single__variant-picker');
+    const selector = $main_variant_wrapper.querySelector('[name="id"]');
+    const selector_id = selector.id;
+    const sticky_selector_id = 'sticky-' + selector_id;
+    let main_variant_html = $main_variant_wrapper.querySelector('.beae-product-single__variant-picker-wrapper').innerHTML;
+
+    if (! $el || ! $el_wrapper ) return;
+    const json = $main_variant_wrapper.querySelector('#' + selector.dataset.jsonProduct);
+
+    if (!json) {
+        return;
+    }
+    main_variant_html = main_variant_html.replace(json.innerHTML, '');
+
+    let product = null;
+    try {
+        product = JSON.parse(json.innerHTML);
+    } catch (e) {
+        return;
+    }
+
+    if ( main_variant_html ) {
+      let sticky_variant_html = main_variant_html.replaceAll( selector.id, sticky_selector_id);
+      $el.innerHTML = sticky_variant_html;
+
+      //Handle swatch select
+      let swatch_items = $el.querySelectorAll('.beae-product-single__swatch-item[data-option-index]');
+      if (swatch_items) {
+        for (const swatch_item of swatch_items) {
+          swatch_item.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const _this = this;
+
+            if (_this.classList.contains('beae-button-active beae-image-button')) {
+              return;
+            }
+
+            let siblings = getSiblings(_this);
+            if (siblings) {
+              for(const sibling of siblings) {
+                sibling.classList.remove('beae-button-active', 'beae-image-button');
+              }
+            }
+
+            _this.classList.add('beae-button-active', 'beae-image-button');
+
+            const index = _this.getAttribute('data-option-index');
+            const select = $el.querySelector('select#' + sticky_selector_id + '-option-' + index);
+
+            if (select) {
+              select.value = _this.getAttribute('data-value');
+              select.dispatchEvent(new Event('change') );
+            }
+          });
+        } //End handle click swatch event
+
+        //Handle select event
+        let select_items = $el.querySelectorAll('.beae-product-single__swatch-select');
+        if (select_items) {
+          for(select_item of select_items) {
+            select_item.addEventListener('change', function(e) {
+              e.preventDefault();
+              const _this = this;
+              const index = _this.getAttribute('data-option-index');
+              const select = $el.querySelector('select#' + sticky_selector_id + '-option-' + index);
+
+              if (select) {
+                select.value = _this.value;
+                select.dispatchEvent(new Event('change') );
+              }
+            });
+          }
+        } //End handle click swatch event
+        const sticky_selector = $el.querySelector('[name="id"]');
+        let select_wrappers = $el.querySelectorAll('.selector-wrapper').forEach( function(el) {
+          el.remove();
+        })
+        const mySelector = new window.Shopify.OptionSelectors(sticky_selector.id, {
+          product: product,
+          onVariantSelected: selectCallback,
+          enableHistoryState: true
+        });
+
+        function selectCallback(variant) {
+          if (parseInt(selector.value) != parseInt(variant.id) ) {
+            selector.value = variant.id;
+            selector.dispatchEvent( new Event('swatch') );
+          }
+          updateOptionSelected(variant);
+          updateImage(variant);
+          updatePrice(variant);
+        }
+
+        //Trigger when main form change value
+        selector.addEventListener('change', function(event) {
+          if ( parseInt(sticky_selector) !== parseInt(event.target.value) )
+            mySelector.selectVariant(event.target.value);
+
+        });
+
+        //Update label
+        function updateOptionSelected(variant) {
+          const $container = $el.querySelector('.beae-product-single__variant-picker-container');
+          if (!$container || !variant) {
+              return false;
+          }
+
+          $container.querySelectorAll('.beae-product-single__variant-picker--selected-value').forEach(function(el) {
+            el.remove();
+          });
+
+          const length = variant.options.length;
+          const $doms = $container.querySelectorAll('.selector-wrapper');
+
+          for (let i = 0; i < length; i++) {
+            const newLabelDom = document.createElement('span');
+            newLabelDom.className = 'beae-product-single__variant-picker--selected-value';
+            newLabelDom.innerText = variant.options[i]
+
+            $container.querySelector(`.beae-product-single__picker--option-label[data-option-index="${i}"]`).append(newLabelDom);
+
+            let select_option = $container.querySelector(`select.beae-product-single__swatch-select[data-option-index="${i}"]`);
+            if  (select_option) select_option.value = variant.options[i];
+          }
+        }
+
+        //Update thumbail image
+        function updateImage(variant) {
+          const $section = doc.querySelector('.beae-sticky__atc');
+          const image_wrapper = $section.querySelector('.beae-sticky__atc--image');
+          const image = $section.querySelector('.beae-sticky__atc--image img');
+          const image_size = $el_wrapper.getAttribute('data-img-size') || '100x';
+          if (image && variant.featured_image.src) {
+            let image_src = window.BEAE.resizeImage(variant.featured_image.src, image_size);
+            image_wrapper.classList.add('beae-loading-image');
+            image.setAttribute('src', image_src);
+
+            image.onload = function() {
+              image_wrapper.classList.remove('beae-loading-image');
+            }
+          }
+        }
+
+        //Update price
+        function updatePrice(variant) {
+          const $section = doc.querySelector('.beae-sticky__atc');
+          const $price = $section.querySelector('.beae-sticky__atc--price');
+
+          if (variant) {
+            const variant_price_sale = variant.compare_at_price != null ? variant.compare_at_price : variant.price;
+            const variant_price_regular = variant.price;
+            if (variant_price_sale < variant_price_regular) {
+              $price.innerHTML = `<del>${window.BEAE.formatMoney(variant_price_regular)}</del><ins>${window.BEAE.formatMoney(variant.price)}</ins>`;
+            } else {
+              $price.innerHTML = window.BEAE.formatMoney(variant.price);
+            }
+          }
+        }
+      }
+
+    }
+      let getSiblings = function (e) {
+        // for collecting siblings
+        let siblings = [];
+        // if no parent, return no sibling
+        if(!e.parentNode) {
+            return siblings;
+        }
+        // first child of the parent node
+        let sibling  = e.parentNode.firstChild;
+        // collecting siblings
+        while (sibling) {
+            if (sibling.nodeType === 1 && sibling !== e) {
+                siblings.push(sibling);
+            }
+            sibling = sibling.nextSibling;
+        }
+        return siblings;
+      };
+  };
+  const handleQuantity = function() {
+    //Handle quantity
+    const btn_qty_plus = $el_wrapper.querySelector('.beae-plus');
+    const btn_qty_minus = $el_wrapper.querySelector('.beae-minus');
+    const qty_input = $el_wrapper.querySelector('.beae-qty-input');
+    const main_qty_input = $main_atc_form.querySelector('.beae-product-single__quantity-input');
+
+    qty_input.addEventListener('change', function(e) {
+      const value = this.value;
+      if (main_qty_input != value) main_qty_input.value = value;
+    })
+    main_qty_input.addEventListener('change', function(e) {
+      const value = this.value;
+      if (main_qty_input != value) qty_input.value = value;
+    })
+    if(btn_qty_plus) {
+      btn_qty_plus.addEventListener('click', function(e) {
+        e.preventDefault();
+        changeQty('plus');
+      })
+    }
+    if(btn_qty_minus) {
+      btn_qty_minus.addEventListener('click', function(e) {
+        e.preventDefault();
+        changeQty('minus');
+      })
+    }
+
+    const changeQty = function(type) {
+
+      let currentVal = parseFloat(qty_input.value),
+          max = parseFloat(qty_input.getAttribute('max')),
+          min = parseFloat(qty_input.getAttribute('min')),
+          step = qty_input.getAttribute('step');
+
+      // Format values
+       if (!currentVal || currentVal === '' || currentVal === 'NaN') currentVal = 0;
+       if (max === '' || max === 'NaN') max = '';
+       if (min === '' || min === 'NaN') min = 0;
+       if (step === 'any' || step === '' || step === undefined || parseFloat(step) === 'NaN') step = 1;
+
+       if (type == 'plus') {
+        if (max && (currentVal >= max)) {
+          qty_input.value = max;
+        } else {
+          qty_input.value = (currentVal + parseFloat(step)).toFixed();
+          main_qty_input.value = (currentVal + parseFloat(step)).toFixed();
+        }
+       } else {
+        if (min && (currentVal <= min)) {
+          qty_input.value = min;
+        } else if (currentVal > 0) {
+          qty_input.value = (currentVal - parseFloat(step)).toFixed();
+          main_qty_input.value = (currentVal - parseFloat(step)).toFixed();
+        }
+       }
+    }
+  }
+
+  const handleATC = function() {
+    //Handle Addtocart
+    const sticky_atc_btn = $el_wrapper.querySelector('.beae-sticky__atc--btn');
+    if (sticky_atc_btn) {
+      sticky_atc_btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const main_atc_btn = $main_atc_form.querySelector('button[type=submit]');
+        if (main_atc_btn) {
+          console.log(main_atc_btn)
+          main_atc_btn.click();
+        }
+      });
+    }
+  }
+
+  const beaeStickyCart = function() {
+    const $sticky_wrapper = doc.querySelector('.beae-sticky__atc');
+    const main_btn_submit = $main_atc_form.querySelector('button[type=submit]');
+
+    if(!$sticky_wrapper) return;
+
+    if ( $sticky_wrapper && main_btn_submit ) {
+      let summaryOffset = window.scrollY + main_btn_submit.getBoundingClientRect().top + main_btn_submit.offsetHeight;
+
+      var stickyAddToCartToggle = function () {
+        var windowScroll = window.pageYOffset || document.documentElement.scrollTop,
+            windowHeight = window.innerHeight,
+            documentHeight = document.body.clientHeight,
+            totalScroll = parseInt(windowScroll + windowHeight) + 60;
+
+        if (summaryOffset < windowScroll && totalScroll !== documentHeight && totalScroll < documentHeight) {
+          $sticky_wrapper.classList.add('beae-sticky-show');
+        } else if (totalScroll === documentHeight || totalScroll > documentHeight || summaryOffset > windowScroll) {
+          $sticky_wrapper.classList.remove('beae-sticky-show');
+        }
+      };
+
+      stickyAddToCartToggle();
+      window.addEventListener('scroll', stickyAddToCartToggle);
+    }
+  }
+
+  // Listen for `DOMContentLoaded` event
+  document.addEventListener('DOMContentLoaded', function(e) {
+    handleVariantStickyCart();
+    handleQuantity();
+    handleATC();
+    beaeStickyCart();
+  });
+
+})()
+{% endjavascript %}
+<!-- End Beae Sticky Cart Extension -->

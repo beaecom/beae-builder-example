@@ -1,0 +1,43 @@
+{
+    "author": "Beae team",
+    "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-6 w-6\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n  <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4\" />\n</svg>",
+    "handlers": ["uninstall", "save", "edit","install"],
+    "docs": "https://beae.com",
+    "settings": [
+        {
+            "type": "group",
+            "name": "colors",
+            "label": "Swatch colors",
+            "description": "Assign the color name to color value",
+            "title_unique": "name",
+            "params": [
+                { "type": "text", "label": "Color name", "name": "name" },
+                {
+                    "type": "background",
+                    "label": "Color",
+                    "name": "value",
+                    "options": { "oneline": true,"toNative": true }
+                }
+            ]
+        }
+    ],
+    "data": {
+        "colors": [
+            { "name": "White", "value": {"classic":{"background-color":"#FFFFFF"},"gradient":{},"native":["background-color:#FFFFFF"]} },
+            { "name": "Silver", "value":{"classic":{"background-color": "#C0C0C0"},"gradient":{},"native":["background-color:#C0C0C0"]} } ,
+            { "name": "Gray", "value": {"classic":{"background-color": "#808080"},"gradient":{},"native":["background-color:#808080"]} } ,
+            { "name": "Black", "value": {"classic":{"background-color":"#000000"},"gradient":{},"native":["background-color:#000000"]}},
+            { "name": "Red", "value":  {"classic":{"background-color": "#FF0000"},"gradient":{},"native":["background-color:#FF0000"] }},
+            { "name": "Maroon", "value": {"classic":{"background-color":  "#800000"},"gradient":{},"native":["background-color:#800000"]}},
+            { "name": "Yellow", "value": {"classic":{"background-color": "#FFFF00" },"gradient":{},"native":["background-color:#FFFF00"]}},
+            { "name": "Olive", "value": {"classic":{"background-color": "#808000" },"gradient":{}, "native":["background-color:#808000"]} },
+            { "name": "Lime", "value":{"classic":{"background-color": "#00FF00" },"gradient":{}, "native":["background-color:#00FF00"]} },
+            { "name": "Green", "value": {"classic":{"background-color":"#008000" },"gradient":{},"native":["background-color:#008000"]} },
+            { "name": "Aqua", "value": {"classic":{"background-color":"#00FFFF" },"gradient":{},"native":["background-color:#00FFFF"]}  },
+            { "name": "Teal", "value": {"classic":{"background-color":"#008080" },"gradient":{}, "native":["background-color:#008080"]}  },
+            { "name": "Blue", "value":  {"classic":{"background-color":"#0000FF" },"gradient":{},"native":["background-color:#0000FF"]}  },
+            { "name": "Navy", "value": {"classic":{"background-color":"#000080" },"gradient":{},"native":["background-color:#000080"]}  },
+            { "name": "Fuchsia", "value":  {"classic":{"background-color":"#FF00FF"  },"gradient":{},"native":["background-color:#FF00FF"]}}
+        ]
+    }
+}
